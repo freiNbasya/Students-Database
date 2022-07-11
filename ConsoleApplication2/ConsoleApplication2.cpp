@@ -3,7 +3,13 @@
 #include <iomanip>
 #include <fstream>
 
-using namespace std;
+using std::string;
+using std::fstream;
+using std::ifstream;
+using std::cin;
+using std::cout;
+using std::endl;
+using std::ios;
 
  class student {
 
@@ -16,6 +22,7 @@ public:
 	void searchData();
 	void deleteRecord();
 private:
+	int id;
 	string name;
 	int age;
 	int math;
@@ -76,6 +83,8 @@ void student::menu() {
 
 void student::getData() {
 	fstream file;
+	cout << "Enter id: ";
+	cin >> id;
 	cout << "Enter name: ";
 	cin >> name;
 	cout << "Enter age: ";
@@ -87,50 +96,52 @@ void student::getData() {
 	cout << "Enter english mark: ";
 	cin >> english;
 	file.open("students.txt", ios::app | ios::out);
-	file << " " << name << " " << age << " " << math << " " << physics << " " << english << "\n";
+	file << id << " " << name << " " << age << " " << math << " " << physics << " " << english << "\n";
 	file.close();
 
 }
 void student::showData() {
 	fstream file;
-	int id=1;
 	cout << "===========================================" << endl;
 	cout << "               " << "Student records:" << endl;
 	cout << "===========================================" << endl;
 	file.open("students.txt", ios::in);
-	file >> name >> age >> math >> physics >> english;
+	file >> id >> name >> age >> math >> physics >> english;
 	while (!file.eof())
 	{
-		cout << "\n\nId: " << id++ << endl;
+		cout << "\nId: " << id << endl;
 		cout << "Name: " << name << endl;
 		cout << "Age: " << age << endl;
 		cout << "Math mark: " << math << endl;
 		cout << "Physics mark: " << physics << endl;
 		cout << "English mark: " << english << endl;
-		file >> name >> age >> math >> physics >> english;
+		file >> id >> name >> age >> math >> physics >> english;
 	}
 	file.close();
 }
 void student::changeData() {
 	fstream file, file1;
 	int found = 0;
-	string nameC;
+	int idC;
 	cout << "===========================================" << endl;
 	cout << "               " << "Change records:" << endl;
 	cout << "===========================================" << endl;
 	file.open("students.txt", ios::in);
-	cout << "Enter name of student: ";
-	cin >> nameC;
+	cout << "Enter student id: ";
+	cin >> idC;
 	file1.open("studentsRecord.txt", ios::app | ios::out);
-	file >> name >> age >> math >> physics >> english;
+	file >> id >> name >> age >> math >> physics >> english;
 	while (!file.eof())
 	{
-		if (nameC!=name)
+		if (idC!=id)
 		{
-			file1 << " " << name << " " << age << " " << math << " " << physics << " " << english << "\n";
+			file1 << id << " " << name << " " << age << " " << math << " " << physics << " " << english << "\n";
 		}
 		else
 		{
+			found++;
+			cout << "Enter id: ";
+			cin >> id;
 			cout << "Enter name: ";
 			cin >> name;
 			cout << "Enter age: ";
@@ -141,14 +152,15 @@ void student::changeData() {
 			cin >> physics;
 			cout << "Enter english mark: ";
 			cin >> english;
-			file1 << " " << name << " " << age << " " << math << " " << physics << " " << english << "\n";
-			found++;
+			file1 <<  id << " " << name << " " << age << " " << math << " " << physics << " " << english << "\n";
+			
 		}
-		file >> name >> age >> math >> physics >> english;
-		if (found == 0)
-		{
-			cout << "Student not found. " << endl;
-		}
+		file >> id >> name >> age >> math >> physics >> english;
+		
+	}
+	if (found == 0)
+	{
+		cout << "Student not found. " << endl;
 	}
 	file1.close();
 	file.close();
@@ -163,24 +175,25 @@ void student::searchData() {
 	cout << "===========================================" << endl;
 	cout << "               " << "Find records:" << endl;
 	cout << "===========================================" << endl;
-	string nameF;
-	cout << "Enter student name: " << endl;
-	cin >> nameF;
-	file >> name >> age >> math >> physics >> english;
+	int idF;
+	cout << "Enter student id: " << endl;
+	cin >> idF;
+	file >> id >> name >> age >> math >> physics >> english;
 	while (!file.eof())
 	{
 
 
-		if (nameF == name)
+		if (idF == id)
 		{
-			cout << "\n\nName: " << name << endl;
+			cout << "Id: " << id << endl;
+			cout << "Name: " << name << endl;
 			cout << "Age: " << age << endl;
 			cout << "Math mark: " << math << endl;
 			cout << "Physics mark: " << physics << endl;
 			cout << "English mark: " << english << endl;
 			found++;
 		}
-		file >> name >> age >> math >> physics >> english;
+		file >> id >> name >> age >> math >> physics >> english;
 		
 	}
 	if (found == 0)
@@ -198,27 +211,27 @@ void student::deleteRecord() {
 	cout << "===========================================" << endl;
 	cout << "               " << "Delete record:" << endl;
 	cout << "===========================================" << endl;
-	string nameF;
-	cout << "Enter student name: " << endl;
-	cin >> nameF;
+	int idF;
+	cout << "Enter student id: " << endl;
+	cin >> idF;
 	file1.open("studentsRecord.txt", ios::app | ios::out);
-	file >> name >> age >> math >> physics >> english;
+	file >> id >> name >> age >> math >> physics >> english;
 	while (!file.eof())
 	{
 
 
-		if (nameF != name)
+		if (idF != id)
 		{
-			file1 << " " << name << " " << age << " " << math << " " << physics << " " << english << "\n";
+			file1 << id << " " << name << " " << age << " " << math << " " << physics << " " << english << "\n";
 			found++;
 		}
-		file >> name >> age >> math >> physics >> english;
+		file >> id >> name >> age >> math >> physics >> english;
 		
 		
 	}
 	if (found == 0)
 	{
-		cout << "No student with such name found." << endl;
+		cout << "No student with such name found or student data file is empty." << endl;
 	}
 	file.close();
 	file1.close();
