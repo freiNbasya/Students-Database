@@ -10,6 +10,8 @@ using std::cin;
 using std::cout;
 using std::endl;
 using std::ios;
+using std::numeric_limits;
+using std::streamsize;
 
  class student {
 
@@ -30,6 +32,22 @@ private:
 	int english;
 };
 
+ template <class T> void getnum(T& choice)
+ {
+	 bool inputFail = false;
+	 do {
+		 cin >> choice;
+		 inputFail = cin.fail();
+		 if (inputFail)
+		 {
+			 cout << "Wrong number!" << endl;
+			 cout << "Please, try again" << endl;
+		 }
+		 cin.clear();
+		 cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	 } while (inputFail);
+ }
+
 void student::menu() {
 	
 	string ch;
@@ -43,7 +61,7 @@ void student::menu() {
 	cout << "          " << "4. Find record" << endl;
 	cout << "          " << "5. Delete record" << endl;
 	cout << "          " << "6. Exit" << endl;
-	cin >> select;
+	getnum(select);
 
 	switch (select)
 	{
@@ -84,17 +102,17 @@ void student::menu() {
 void student::getData() {
 	fstream file;
 	cout << "Enter id: ";
-	cin >> id;
+	getnum(id);
 	cout << "Enter name: ";
 	cin >> name;
 	cout << "Enter age: ";
-	cin >> age;
+	getnum(age);
 	cout << "Enter math mark: ";
-	cin >> math;
+	getnum(math);
 	cout << "Enter physics mark: ";
-	cin >> physics;
+	getnum(physics);
 	cout << "Enter english mark: ";
-	cin >> english;
+	getnum(english);
 	file.open("students.txt", ios::app | ios::out);
 	file << id << " " << name << " " << age << " " << math << " " << physics << " " << english << "\n";
 	file.close();
@@ -128,7 +146,7 @@ void student::changeData() {
 	cout << "===========================================" << endl;
 	file.open("students.txt", ios::in);
 	cout << "Enter student id: ";
-	cin >> idC;
+	getnum(idC);
 	file1.open("studentsRecord.txt", ios::app | ios::out);
 	file >> id >> name >> age >> math >> physics >> english;
 	while (!file.eof())
@@ -141,17 +159,17 @@ void student::changeData() {
 		{
 			found++;
 			cout << "Enter id: ";
-			cin >> id;
+			getnum(id);
 			cout << "Enter name: ";
 			cin >> name;
 			cout << "Enter age: ";
-			cin >> age;
+			getnum(age);
 			cout << "Enter math mark: ";
-			cin >> math;
+			getnum(math);
 			cout << "Enter physics mark: ";
-			cin >> physics;
+			getnum(physics);
 			cout << "Enter english mark: ";
-			cin >> english;
+			getnum(english);
 			file1 <<  id << " " << name << " " << age << " " << math << " " << physics << " " << english << "\n";
 			
 		}
@@ -177,7 +195,7 @@ void student::searchData() {
 	cout << "===========================================" << endl;
 	int idF;
 	cout << "Enter student id: " << endl;
-	cin >> idF;
+	getnum(idF);
 	file >> id >> name >> age >> math >> physics >> english;
 	while (!file.eof())
 	{
@@ -213,7 +231,7 @@ void student::deleteRecord() {
 	cout << "===========================================" << endl;
 	int idF;
 	cout << "Enter student id: " << endl;
-	cin >> idF;
+	getnum(idF);
 	file1.open("studentsRecord.txt", ios::app | ios::out);
 	file >> id >> name >> age >> math >> physics >> english;
 	while (!file.eof())
