@@ -1,0 +1,5 @@
+1 Bob 16 7 6 9
+2 Alex 17 10 9 10
+3 Nick 16 5 3 7
+4 Paul 15 8 8 5
+5 Michael 17 4 5 2
